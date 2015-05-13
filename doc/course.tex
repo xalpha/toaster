@@ -1,11 +1,17 @@
 \documentclass[11pt,a4paper]{article}
 
 % document properties
+\title{Machine Learning}
+\author{Andrew Ng}
+\date{}
 
 \begin{document}
+\maketitle
+
 \section{Problems}
 \subsection{Supervised Learning}
-\paragraph*{Def:} Give the algorithm a dataset in which the right answers are given. Algorithm then can produce more right answers. 
+\paragraph*{Def:} Give the algorithm a dataset in which the right answers are given. 
+Algorithm then can produce more right answers. 
 
 Learning can be used to solve two types of problems:
 \begin{itemize}
@@ -13,9 +19,42 @@ Learning can be used to solve two types of problems:
 \item \textbf{Classification:} predict a discrete output, ie. what label to attribute to the data.
 \end{itemize}
 
-When learning, a data point can have multiple \emph{features}. A data point is basically a vector of features, with each feature either a scalar or a vector itself.
+When learning, a data point can have multiple \emph{features}. 
+A data point is basically a vector of features, with each feature either a scalar or a vector itself.
 
 \subsection{Unsupervised Learning}
-\paragraph*{Def:} The algorithm has to discover structures in the data on its own, without input from the user. This is usually done by \emph{clustering}. Clustering is used for example to detect patterns in news headlines, friend groups in a social network, or even on star positions in space.
+\paragraph*{Def:} The algorithm has to discover structures in the data on its own, without input from the user.
+This is usually done by \emph{clustering}. 
+Clustering is used for example to detect patterns in news headlines, friend groups in a social network, or even on star positions in space.
+
+\section{Linear Regression}
+Express the problem by means of a model and based on the model, define a cost function depending on the models parameters. 
+If the parameters are deviating form the observed measurements, the cost function will produce higher values. 
+Now the task becomes, to find the parameters that have the least cost.
+
+\subsection{Gradient Descent}
+Gradient descent is an algorithm that tries to approximate the parameter vector $\theta$ that minimizes the models cost function $J$.
+It does this by descending along the gradient vector of the cost function in parameter space.
+\paragraph{Hypothesis:} is the way we model the problem. 
+The following is an example of a linear function trying to fit the data: $h_\theta(x) = \theta^Tx = \theta_0x_0 + \theta_1x_1 + \ldots + \theta_nx_n$.
+Here \textbf{x} is a  with $x_0:=1$.
+
+\paragraph{Parameters:} $\theta = \theta_0, \theta_1, \ldots, \theta_n$
+\paragraph{Cost Function:} 	$J(\theta)=\frac{1}{2m}\sum\limits_{i=1}^m(\theta^Tx_{i,:}-y_i)^2$
+
+Each iteration $i$ of gradient descent, the current parameter estimate $\theta_i$ is computed as:
+\begin{equation}
+\theta_i = \theta_{i-1} + \alpha\frac{\partial}{\partial \theta}J(\theta)
+\end{equation}
+
+
+
+\section*{Octave Cheat Sheet}
+\begin{tabular}{l|l}
+\textbf{Command}&\textbf{Description}\\
+\hline
+pinv(A)&compute inverse of a matrix\\
+A'&transpose of the matrix (new this but looks nice anyway)
+\end{tabular}
 
 \end{document}
