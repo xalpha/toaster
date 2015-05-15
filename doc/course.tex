@@ -1,4 +1,6 @@
 \documentclass[11pt,a4paper]{article}
+\usepackage{amssymb}
+\usepackage{multicol}
 
 % document properties
 \title{Machine Learning}
@@ -37,16 +39,72 @@ Gradient descent is an algorithm that tries to approximate the parameter vector 
 It does this by descending along the gradient vector of the cost function in parameter space.
 \paragraph{Hypothesis:} is the way we model the problem. 
 The following is an example of a linear function trying to fit the data: $h_\theta(x) = \theta^Tx = \theta_0x_0 + \theta_1x_1 + \ldots + \theta_nx_n$.
-Here \textbf{x} is a  with $x_0:=1$.
+As with any linear function, there has to be an offset element, which is why we introduce $x_0:=1$.
 
-\paragraph{Parameters:} $\theta = \theta_0, \theta_1, \ldots, \theta_n$
-\paragraph{Cost Function:} 	$J(\theta)=\frac{1}{2m}\sum\limits_{i=1}^m(\theta^Tx_{i,:}-y_i)^2$
+\paragraph{Parameters:} the purpose of \emph{gradient descent} is to estimate the parameters, $\theta$, of our model $h_\theta(x)$.
+These parameters are represented by the vector $\theta
+= \theta_0, \theta_1, \ldots, \theta_n$, with $n$, the number of features plus one.
+This plus one, is the offset parameter, as previously described.
 
-Each iteration $i$ of gradient descent, the current parameter estimate $\theta_i$ is computed as:
+\paragraph{Cost Function:} is chosen to model how well the estimated model/parameter pair fits the existing data.
+The \emph{cost function}, is also the one, who's gradient is being descended in the search for the \emph{global minimum}.
+Depending on the problem, the choice of \emph{cost function} has great impact on the parameter estimation, as the descent can even be stuck in a local minimum, never properly converging.
+This is also why, the choice of initial values for $\theta$ can play an important role if the algorithm converges.
 \begin{equation}
-\theta_i = \theta_{i-1} + \alpha\frac{\partial}{\partial \theta}J(\theta)
+J(\theta)=\frac{1}{2m}\sum\limits_{i=1}^m(\theta^Tx_{i,:}-y_i)^2
 \end{equation}
 
+\paragraph{Implementation:}
+Although \emph{gradient descent} can be computed using only the cost function, by using central differences to approximate the gradient vector, the most efficient way to implement it is using the derived of the cost function. 
+Evaluating this gives us the actual value of the gradient for any parameters vector $\theta$.
+This should work for just about any cost function, but computing the central differences is quite slow and it introduces an additional non-intuitive parameter: the step size of the central differences which also affects convergence performance.
+
+The optimal way to go about gradient descent, is to compute the partial derivative of the cost function with respect to each parameter $\theta_i$:
+\begin{equation}
+\theta_j = \theta_{j}^{old} + \alpha\frac{\partial}{\partial \theta_j}J(\theta_j)
+\end{equation}
+Doing so for our $J(\theta_j)$ gives us:
+\begin{equation}
+\frac{\partial}{\partial \theta_j} J(\theta_j) = \frac{1}{m}\sum\limits_{i=1}^m(\theta^Tx_{i,:}-y_i)x_{j,:}
+\end{equation}
+This can now be used directly to compute the gradient for all values of $\theta$.
+
+\paragraph{Tweaks}
+In order to improve the performance of \emph{gradient descent}, it is recommended to normalize the learning data.
+This is called \emph{feature scaling} and involves, centring the measurements of each feature around 0 and scaling them to $[-1,1]$.
+
+\subsection{Normal Equation}
+We will now look at an approach to directly estimate our parameters $\theta$.
+This involves, setting the derivate of our cost function $h$ to zero and solving for $\theta$.
+
+\paragraph{Design matrix:} The \emph{design matrix} $X \in \mathbb{R}^{m\times n+1}$ with $m$ the measurement count and $n$ the number of features.
+As described earlier, $X$ has an extra column to consider the offset.
+
+\paragraph{Solution:} For linear regression, $\theta$ can be computed by:
+\begin{equation}
+\theta = (X^TX)^{-1}X^Ty
+\end{equation}
+
+\paragraph{Compared with Gradient Descent:}
+Solving a linear regression using the \emph{normal equation} approach is not necessarily the optimal way to do it.
+In the following we will discuss the pros and cons:
+
+\begin{multicols}{2}
+\underline{Gradient Descent}
+\begin{itemize}
+\item needs to choose $\alpha$
+\item is iterative
+\item can handle data with large number of features,\\ i.e. large $n$
+\end{itemize}
+
+\columnbreak
+\underline{Normal Equation}\\
+\begin{itemize}
+\item no need to choose $\alpha$
+\item could not be iterative (depending on implementation)
+\item computation of $(X^TX)^{-1}$\\ requires lots of memory. Still works well when $n <= 10000$
+\end{itemize}
+\end{multicols}
 
 
 \section*{Octave Cheat Sheet}
