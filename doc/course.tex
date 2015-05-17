@@ -88,6 +88,9 @@ As described earlier, $X$ has an extra column to consider the offset.
 \theta = (X^TX)^{-1}X^Ty
 \end{equation}
 
+\paragraph{If $X^TX$ is not invertible:} this can have two causes: \emph{linear dependency}: some rows or columns are multiples of other rows or columns or \emph{the number of columns} is greater than the number of rows.
+For the the later we either delete some columns or use regularization.
+
 \paragraph{Compared with Gradient Descent:}
 Solving a linear regression using the \emph{normal equation} approach is not necessarily the optimal way to do it.
 In the following we will discuss the pros and cons:
@@ -111,6 +114,7 @@ In the following we will discuss the pros and cons:
 
 
 \section*{Octave Cheat Sheet}
+\subsection*{Commands:}
 \begin{tabular}{l|l}
 \textbf{Command}&\textbf{Description}\\
 \hline
@@ -124,6 +128,26 @@ a = [1;2] $\rightarrow a=[\frac{1}{2}]$& semicolon ";" separates elements vertic
 \hline
 hist(x,b)&compute the histogram of \textbf{x} using \textbf{b} bins\\
 \hline
+[val,ind] = max(v)& returns the maximum value \textbf{val} and its index \textbf{ind}\\
+&of vector \textbf{v}\\
+\hline
+max(A,[],dim)& returns the maximum values of \textbf{A} over rows or columns,\\
+& depending what dimmension is specified in \textbf{dim}\\
+\hline
+mask = v $<$ a& returns a boolean vector \textbf{mask}, with \textbf{1}\\
+& for all elements of matrix \textbf{A} where the condition is true\\
+\hline
+[r,c] = find( A $>$ b )& returns row and column indices (\textbf{r} and \textbf{c})\\
+& for all elements of \textbf{A} that satisfy the condition\\
+\hline
+sum(A,dim)& compute the sums of the columns or rows of matrix \textbf{A},\\
+& depending what dimmension is specified in \textbf{dim}\\
+\hline
+subplot(rows,cols,index)& instead of having multiple plots, subdivide the figure\\
+&into a \textbf{rowx} $\times$ \textbf{cols} grid and specify with \textbf{index}\\
+& in which subplot the next \emph{plot} command will draw into\\
+\hline
 \end{tabular}
+
 
 \end{document}
